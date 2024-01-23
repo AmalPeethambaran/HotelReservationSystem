@@ -15,13 +15,7 @@ public class HotelReservationSystem {
     private static final String username = "root";
     private static final String password = "2581421@Ap";
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver" );
-//        } catch( ClassNotFoundException e ) {
-//            System.out.println( e.getMessage() );
-//        }
-
+    public static void main(String[] args) throws SQLException {
         try {
             Connection connection = DriverManager.getConnection( url, username, password );
             while( true ) {
@@ -58,8 +52,7 @@ public class HotelReservationSystem {
     private static void reserveRoom(Connection connection, Scanner in ) {
         try {
             System.out.print("Enter guest name: ");
-            String guestName = in.next();
-            in.nextLine();
+            String guestName = in.nextLine();
             System.out.print("Enter room number: ");
             int roomNumber = in.nextInt();
             System.out.print("Enter contact number: ");
@@ -87,9 +80,9 @@ public class HotelReservationSystem {
              ResultSet resultset = statement.executeQuery(sql)) {
 
             System.out.println("Current Reservations: ");
-            System.out.println("+----------------+----------------+----------------+----------------+-------------------------------+");
-            System.out.println("| Reservation ID | Guest          | Room Number    | Contact NUmber | Reservation Date              |");
-            System.out.println("+----------------+----------------+----------------+----------------+-------------------------------+");
+            System.out.println("+----------------+-------------------+----------------+----------------+-------------------------------+");
+            System.out.println("| Reservation ID | Guest             | Room Number    | Contact NUmber | Reservation Date              |");
+            System.out.println("+----------------+-------------------+----------------+----------------+-------------------------------+");
 
 
             while(resultset.next()) {
@@ -99,10 +92,10 @@ public class HotelReservationSystem {
                 String contactNumber = resultset.getString("contact_number");
                 String reservationDate = resultset.getTimestamp("reservation_date").toString();
 
-                System.out.printf("| %-16d | %-16s | %-16d | %-16s | %-31s |\n", reservationId, guestName, roomNumber, contactNumber, reservationDate);
+                System.out.printf("| %-14d | %-17s | %-14d | %-14s | %-29s |\n", reservationId, guestName, roomNumber, contactNumber, reservationDate);
             }
 
-            System.out.println("+----------------+----------------+----------------+----------------+-------------------------------+");
+            System.out.println("+----------------+-------------------+----------------+----------------+-------------------------------+");
         }
     }
 
@@ -111,7 +104,7 @@ public class HotelReservationSystem {
             System.out.println("Enter reservation ID: ");
             int reservationId = in.nextInt();
             System.out.println("Enter guest name: ");
-            String guestName = in.next();
+            String guestName = in.nextLine();
 
             String sql = "SELECT room_number FROM reservations " +
                          "WHERE reservation_id = " + reservationId +
